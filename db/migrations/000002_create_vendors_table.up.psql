@@ -5,5 +5,9 @@ CREATE TABLE vendors(
     last_name              VARCHAR(100) NOT NULL,
     password               VARCHAR(100) NOT NULL,
     business_name          VARCHAR(200) NOT NULL,
-    business_description   VARCHAR NOT NULL
+    business_description   VARCHAR NOT NULL,
+    created_at             TIMESTAMPTZ NOT NULL,
+    updated_at             TIMESTAMPTZ,
+    deleted_at             TIMESTAMPTZ
+
 );
