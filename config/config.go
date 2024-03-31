@@ -10,7 +10,11 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
+var Session *gorm.DB
+
+func GetSession() *gorm.DB{
+	return Session
+}
 
 func ConnectToDB(){
 
@@ -27,8 +31,12 @@ func ConnectToDB(){
 		log.Fatal(err)
 	}
 
-	DB = db
+	Session = db
+	if Session != nil{
+		fmt.Println("success: created db session")
+	}
 }
+
 
 func LoadEnv(){
     err := godotenv.Load()

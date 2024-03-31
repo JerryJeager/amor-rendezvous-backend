@@ -1,15 +1,15 @@
 package api
 
-import "github.com/gin-gonic/gin"
+import (
+	_ "embed"
+)
 
-func ExecuteApiRoutes() {
+// the embed is done out side the *RegisterRoutes* Function because
+// it does not apply var inside any function
 
-	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "hello!",
-		})
-	})
+//go:embed openapi.yaml
+var openApi string
 
-	r.Run(":8080")
+func OpenApiDocs() string {
+	return openApi
 }
