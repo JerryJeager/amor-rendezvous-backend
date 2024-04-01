@@ -31,7 +31,7 @@ func ConnectToDB(){
 		log.Fatal(err)
 	}
 
-	Session = db
+	Session =  db.Session(&gorm.Session{})
 	if Session != nil{
 		fmt.Println("success: created db session")
 	}

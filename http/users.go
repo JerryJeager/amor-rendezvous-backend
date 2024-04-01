@@ -29,3 +29,21 @@ func (o *UserController) CreateUser(ctx *gin.Context){
 
 	ctx.JSON(http.StatusCreated, id)
 }
+
+
+func (o *UserController) CreateToken(ctx *gin.Context){
+	var user users.User
+	if err := ctx.ShouldBindJSON(&user); err != nil{
+		ctx.Status(http.StatusBadRequest)
+		return
+	}
+
+	token, err := o.serv.CreateToken(ctx, &user)
+
+	if err != nil{
+		ctx.Status(500)
+		return
+	}
+	ctx.JSON(http.StatusCreated, gin.H{"TOKEN": token})
+
+}

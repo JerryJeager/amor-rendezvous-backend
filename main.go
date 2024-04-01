@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"fmt"
 
 	"github.com/JerryJeager/amor-rendezvous-backend/cmd"
 	"github.com/JerryJeager/amor-rendezvous-backend/config"
@@ -10,11 +10,10 @@ import (
 func init() {
 	config.LoadEnv()
 	config.ConnectToDB()
-	log.Print("env and database initializaed successfully...")
+	fmt.Println("env and database initializaed successfully...")
+	fmt.Println("starting to the amor-rendezvous server...")
 }
 
 func main() {
-    log.Print("starting to the amor-rendezvous server...")
-
 	cmd.ExecuteApiRoutes()
 }

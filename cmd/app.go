@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/JerryJeager/amor-rendezvous-backend/api"
 	"github.com/JerryJeager/amor-rendezvous-backend/manualwire"
 	"github.com/gin-gonic/gin"
@@ -9,6 +10,7 @@ import (
 var userController = manualwire.GetUserController()
 
 func ExecuteApiRoutes() {
+	fmt.Println("executing api routes")
 
 	r := gin.Default()
 	r.GET("/", func(c *gin.Context) {
@@ -25,6 +27,7 @@ func ExecuteApiRoutes() {
 
 	users := v1.Group("/users")
 	users.POST("", userController.CreateUser)
+	users.POST("/token", userController.CreateToken)
 
 	r.Run(":8080")
 }
