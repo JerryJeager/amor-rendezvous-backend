@@ -5,11 +5,11 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/JerryJeager/amor-rendezvous-backend/service/users"
+	"github.com/JerryJeager/amor-rendezvous-backend/service"
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func GenerateToken(user users.User) (string, error) {
+func GenerateToken(user service.User) (string, error) {
 
     tokenLifespan, err := strconv.Atoi(os.Getenv("TOKEN_HOUR_LIFESPAN"))
 

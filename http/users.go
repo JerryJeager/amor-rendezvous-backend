@@ -3,6 +3,7 @@ package http
 import (
 	"net/http"
 
+	"github.com/JerryJeager/amor-rendezvous-backend/service"
 	"github.com/JerryJeager/amor-rendezvous-backend/service/users"
 	"github.com/gin-gonic/gin"
 )
@@ -32,7 +33,7 @@ func (o *UserController) CreateUser(ctx *gin.Context){
 
 
 func (o *UserController) CreateToken(ctx *gin.Context){
-	var user users.User
+	var user service.User
 	if err := ctx.ShouldBindJSON(&user); err != nil{
 		ctx.Status(http.StatusBadRequest)
 		return
