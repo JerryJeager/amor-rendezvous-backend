@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/JerryJeager/amor-rendezvous-backend/service/users"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -32,6 +33,8 @@ func ConnectToDB(){
 	if err != nil{
 		log.Fatal(err)
 	}
+
+	db.AutoMigrate(users.User{})
 
 	Session =  db.Session(&gorm.Session{})
 	if Session != nil{
