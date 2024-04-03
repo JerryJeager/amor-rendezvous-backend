@@ -2,16 +2,17 @@ package users
 
 import (
 	"context"
+	"log"
 
 	"github.com/JerryJeager/amor-rendezvous-backend/service"
 	"github.com/JerryJeager/amor-rendezvous-backend/utils"
 	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
+	// "golang.org/x/crypto/bcrypt"
 )
 
 type UserSv interface {
 	CreateUser(ctx context.Context, user *User) (string, error)
-	CreateToken(ctx context.Context, user *service.User) (string, error)
+	CreateToken(ctx context.Context, userID uuid.UUID, user *service.User) (string, error)
 }
 
 type UserServ struct {
@@ -35,15 +36,20 @@ func (o *UserServ) CreateUser(ctx context.Context, user *User) (string, error) {
 	return id.String(), nil
 }
 
-func (o *UserServ) CreateToken(ctx context.Context, user *service.User) (string, error) {
-	pas, err := o.repo.CreateToken(ctx, user)
+func (o *UserServ) CreateToken(ctx context.Context, userID uuid.UUID, user *service.User) (string, error) {
+	pas, err := o.repo.CreateToken(ctx, userID, user)
 	if err != nil {
 		return "", err
 	}
 
+	if pas == ""{
+		log.Print("pas is actauall not a password")
+		log.Print(pas)
+	}
+	
 	err = VerifyPassword(user.Password, pas)
 
-	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword {
+	if err != nil{
 		return "", err
 	}
 

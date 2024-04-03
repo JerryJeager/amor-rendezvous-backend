@@ -3,15 +3,17 @@ package users
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/JerryJeager/amor-rendezvous-backend/config"
 	"github.com/JerryJeager/amor-rendezvous-backend/service"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type UserStore interface {
 	CreateUser(ctx context.Context, user *User) error
-	CreateToken(ctx context.Context, user *service.User) (string, error)
+	CreateToken(ctx context.Context, userID uuid.UUID, user *service.User) (string, error)
 }
 
 type UserRepo struct {
@@ -20,14 +22,14 @@ type UserRepo struct {
 
 func NewUserRepo(client *gorm.DB) *UserRepo {
 	fmt.Println("in the gorm client of the store")
-	if client == nil{
+	if client == nil {
 		fmt.Println("the client is nil in store")
 	}
 	return &UserRepo{client: client}
 }
 
 func (o *UserRepo) CreateUser(ctx context.Context, user *User) error {
-	if o.client != nil{
+	if o.client != nil {
 		fmt.Println("gorm client is available in the store...")
 	}
 	query := config.Session.Create(&user).WithContext(ctx)
@@ -37,15 +39,17 @@ func (o *UserRepo) CreateUser(ctx context.Context, user *User) error {
 	return nil
 }
 
-func (o *UserRepo) CreateToken(ctx context.Context, user *service.User) (string, error) {
-	if o.client != nil{
+func (o *UserRepo) CreateToken(ctx context.Context, userID uuid.UUID, user *service.User) (string, error) {
+	if o.client != nil {
 		fmt.Println("gorm client is available in the store...")
 	}
 	var userModel User
 
-	if err := config.Session.Model(&userModel).Where("email=?", user.Email).Take(&user).WithContext(ctx).Error; err != nil {
-        return "", err
-    }
+	if err := config.Session.First(&userModel, "id = ?", userID).WithContext(ctx).Error; err != nil {
+		return "", err
+	}
+
+	log.Print(userModel.Email)
 
 	return userModel.Password, nil
 }

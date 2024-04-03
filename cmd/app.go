@@ -27,7 +27,7 @@ func ExecuteApiRoutes() {
 
 	users := v1.Group("/users")
 	users.POST("", userController.CreateUser)
-	users.POST("/token", userController.CreateToken)
+	users.POST("/token/:user-id", userController.CreateToken)
 
 	r.Run(":8080")
 }
