@@ -18,14 +18,16 @@ func GetSession() *gorm.DB{
 
 func ConnectToDB(){
 
-	host := os.Getenv("HOST")
-	username := os.Getenv("USER")
-	password := os.Getenv("PASSWORD")
-	port := os.Getenv("PORT")
-	dbName := os.Getenv("DBNAME")
+	// host := os.Getenv("HOST")
+	// username := os.Getenv("USER")
+	// password := os.Getenv("PASSWORD")
+	// port := os.Getenv("PORT")
+	// dbName := os.Getenv("DBNAME")
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", host, username, password, dbName, port)
-    db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	connectionString := os.Getenv("CONNECTION_STRING")
+
+	// dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", host, username, password, dbName, port)
+    db, err := gorm.Open(postgres.Open(connectionString), &gorm.Config{})
 
 	if err != nil{
 		log.Fatal(err)
