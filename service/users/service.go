@@ -12,7 +12,7 @@ import (
 
 type UserSv interface {
 	CreateUser(ctx context.Context, user *User) (string, error)
-	CreateToken(ctx context.Context, userID uuid.UUID, user *service.User) (string, error)
+	CreateToken(ctx context.Context, user *service.User) (string, error)
 }
 
 type UserServ struct {
@@ -36,8 +36,8 @@ func (o *UserServ) CreateUser(ctx context.Context, user *User) (string, error) {
 	return id.String(), nil
 }
 
-func (o *UserServ) CreateToken(ctx context.Context, userID uuid.UUID, user *service.User) (string, error) {
-	pas, err := o.repo.CreateToken(ctx, userID, user)
+func (o *UserServ) CreateToken(ctx context.Context, user *service.User) (string, error) {
+	pas, err := o.repo.CreateToken(ctx, user.Email, user)
 	if err != nil {
 		return "", err
 	}

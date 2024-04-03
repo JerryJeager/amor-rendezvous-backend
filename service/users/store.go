@@ -7,13 +7,12 @@ import (
 
 	"github.com/JerryJeager/amor-rendezvous-backend/config"
 	"github.com/JerryJeager/amor-rendezvous-backend/service"
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type UserStore interface {
 	CreateUser(ctx context.Context, user *User) error
-	CreateToken(ctx context.Context, userID uuid.UUID, user *service.User) (string, error)
+	CreateToken(ctx context.Context, userEmail string, user *service.User) (string, error)
 }
 
 type UserRepo struct {
@@ -39,13 +38,13 @@ func (o *UserRepo) CreateUser(ctx context.Context, user *User) error {
 	return nil
 }
 
-func (o *UserRepo) CreateToken(ctx context.Context, userID uuid.UUID, user *service.User) (string, error) {
+func (o *UserRepo) CreateToken(ctx context.Context, userEmail string, user *service.User) (string, error) {
 	if o.client != nil {
 		fmt.Println("gorm client is available in the store...")
 	}
 	var userModel User
 
-	if err := config.Session.First(&userModel, "id = ?", userID).WithContext(ctx).Error; err != nil {
+	if err := config.Session.First(&userModel, "email = ?", userEmail).WithContext(ctx).Error; err != nil {
 		return "", err
 	}
 

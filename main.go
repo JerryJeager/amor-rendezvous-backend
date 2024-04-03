@@ -7,13 +7,11 @@ import (
 	"github.com/JerryJeager/amor-rendezvous-backend/config"
 )
 
-func init() {
+
+func main() {
 	config.LoadEnv()
 	config.ConnectToDB()
 	fmt.Println("env and database initializaed successfully...")
 	fmt.Println("starting to the amor-rendezvous server...")
-}
-
-func main() {
 	cmd.ExecuteApiRoutes()
 }

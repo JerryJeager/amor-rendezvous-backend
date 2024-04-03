@@ -6,7 +6,6 @@ import (
 	"github.com/JerryJeager/amor-rendezvous-backend/service"
 	"github.com/JerryJeager/amor-rendezvous-backend/service/users"
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 type UserController struct {
@@ -35,15 +34,13 @@ func (o *UserController) CreateUser(ctx *gin.Context){
 
 func (o *UserController) CreateToken(ctx *gin.Context){
 
-	userID := ctx.Param("user-id")
-
 	var user service.User
 	if err := ctx.ShouldBindJSON(&user); err != nil{
 		ctx.Status(http.StatusBadRequest)
 		return
 	}
 
-	token, err := o.serv.CreateToken(ctx, uuid.MustParse(userID), &user)
+	token, err := o.serv.CreateToken(ctx, &user)
 
 	if err != nil{
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": "email or password is invaiid"})
