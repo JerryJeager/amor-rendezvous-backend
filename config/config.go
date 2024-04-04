@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path/filepath"
 
 	"github.com/JerryJeager/amor-rendezvous-backend/service"
 	"github.com/joho/godotenv"
@@ -45,18 +44,9 @@ func ConnectToDB(){
 
 
 func LoadEnv(){
-    p, err := os.Executable()
-    if err != nil {
-        log.Fatal(err)
-    }
+    err := godotenv.Load()
 
-    // Extract the directory containing the executable
-    p = filepath.Dir(p)
-
-    // Load the .env file
-    err = godotenv.Load(filepath.Join(p, ".env"))
-    if err != nil {
-        panic("Error loading .env file")
-    }
-
+	if err != nil{
+		log.Fatal("failed to load environment variables")
+	}
 }
