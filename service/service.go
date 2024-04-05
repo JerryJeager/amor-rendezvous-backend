@@ -1,8 +1,9 @@
 package service
 
 import (
-	"github.com/google/uuid"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type BaseModel struct {
@@ -15,8 +16,8 @@ type BaseModel struct {
 type User struct {
 	BaseModel
 	Email     string `json:"email" binding:"required" gorm:"unique"`
-	FirstName string `json:"first_name" binding:"required"`
-	LastName  string `json:"last_name" binding:"required"`
+	FirstName string `json:"first_name" `
+	LastName  string `json:"last_name" `
 	Password  string `json:"password" binding:"required"`
 	IsToWed   bool   `json:"is_to_wed"`
 }
