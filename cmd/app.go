@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"log"
 	"github.com/JerryJeager/amor-rendezvous-backend/api"
 	"github.com/JerryJeager/amor-rendezvous-backend/manualwire"
 	"github.com/gin-gonic/gin"
@@ -29,5 +31,11 @@ func ExecuteApiRoutes() {
 	users.POST("", userController.CreateUser)
 	users.POST("/token", userController.CreateToken)
 
-	r.Run(":8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	if err := r.Run(":" + port); err != nil {
+		log.Panicf("error: %s", err)
+	}
 }
