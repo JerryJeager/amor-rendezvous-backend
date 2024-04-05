@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"os"
+	// "os"
 	"strconv"
 	"time"
 
@@ -11,7 +11,7 @@ import (
 
 func GenerateToken(user service.User) (string, error) {
 
-    tokenLifespan, err := strconv.Atoi(os.Getenv("TOKEN_HOUR_LIFESPAN"))
+    tokenLifespan, err := strconv.Atoi("2")
 
     if err != nil {
         return "", err
@@ -23,6 +23,6 @@ func GenerateToken(user service.User) (string, error) {
     claims["exp"] = time.Now().Add(time.Hour * time.Duration(tokenLifespan)).Unix()
     token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-    return token.SignedString([]byte(os.Getenv("API_SECRET")))
+    return token.SignedString([]byte("A492477RY49RWIOQHGURHGUIQPHERHFUQH734H7473889FHQ89HF"))
 
 }
