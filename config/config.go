@@ -22,7 +22,7 @@ func ConnectToDB(){
 	// host := os.Getenv("HOST")
 	// username := os.Getenv("USER")
 	// password := os.Getenv("PASSWORD")
-	// port := os.Getenv("PORT")
+	// port := os.Getenv("DBPORT")
 	// dbName := os.Getenv("DBNAME")
 
 	// connectionString := os.Getenv("CONNECTION_STRING")

@@ -26,6 +26,24 @@ paths:
           $ref: "#/components/responses/badRequestError"
         "500":
           $ref: "#/components/responses/serverError"
+  /api/v1/users/login:
+    post:
+      summary: Login user 
+      description: Login user 
+      tags: 
+        - Users
+      operationId: login_user
+      requestBody:
+        $ref: "#/components/requestBodies/UserLogin"
+      responses:
+        "200":
+          $ref: "#/components/responses/CreatedWithTokenResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
 
 components:
   parameters:
@@ -49,6 +67,17 @@ components:
             type: string
             format: uuid
             example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+    CreatedWithTokenResponse:
+      description: "Response for Successful login of a user object, contains the jwt token that will be used for other requests."
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token: 
+                type: string
+                format: jwt
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3MTIzMzU1NzcsImlkIjoiMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAwIn0.6fTROLGcLnMBhROKgEYKaB0fQUz91uPL19RTBRNk1PQ
     createdResponse:
       description: "Created"
     successResponse:
@@ -107,6 +136,11 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/UserCreate"
+    UserLogin:  
+      content: 
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UserLogin"
   schemas:
     UserCreate: 
       type: object
@@ -120,6 +154,15 @@ components:
         last_name:
           type: string
           example: "Doe"
+        password: 
+          type: string
+          example: "userpassword82_"
+    UserLogin: 
+      type: object
+      properties:
+        email: 
+          type: string
+          example: "user@gmail.com"
         password: 
           type: string
           example: "userpassword82_"
