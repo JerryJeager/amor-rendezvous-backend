@@ -24,7 +24,7 @@ func (o *UserController) CreateUser(ctx *gin.Context){
 	id, err := o.serv.CreateUser(ctx, &user)
 
 	if err != nil{
-		ctx.Status(http.StatusBadRequest)
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": "user with this email already exists"})
 		return 
 	}
 

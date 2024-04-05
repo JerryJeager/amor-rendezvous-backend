@@ -4,11 +4,11 @@ info:
   description: API for Amor Rendezvous Backend
   version: "1.0"
 servers:
-  - url: "http://localhost:8080"
+  - url: "https://amor-rendezvous-backend.onrender.com"
   
 
 paths:
-  /api/v1/users:
+  /api/v1/users/signup:
     post:
       summary: Create a user account
       description: Create a user account

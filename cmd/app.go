@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 	"log"
+	"os"
+
 	"github.com/JerryJeager/amor-rendezvous-backend/api"
 	"github.com/JerryJeager/amor-rendezvous-backend/manualwire"
 	"github.com/gin-gonic/gin"
@@ -28,8 +29,8 @@ func ExecuteApiRoutes() {
 	})
 
 	users := v1.Group("/users")
-	users.POST("", userController.CreateUser)
-	users.POST("/token", userController.CreateToken)
+	users.POST("/signup", userController.CreateUser)
+	users.POST("/login", userController.CreateToken)
 
 	port := os.Getenv("PORT")
 	if port == "" {
