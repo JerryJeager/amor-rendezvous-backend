@@ -30,7 +30,7 @@ paths:
     post:
       summary: Login user 
       description: Login user 
-      tags: 
+      tags:   
         - Users
       operationId: login_user
       requestBody:
