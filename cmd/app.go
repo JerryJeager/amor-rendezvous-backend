@@ -34,6 +34,10 @@ func ExecuteApiRoutes() {
 	users.POST("/signup", userController.CreateUser)
 	users.POST("/login", userController.CreateToken)
 
+	user := users
+	user.Use(middleware.JwtAuthMiddleware())
+	user.GET("/:user-id", userController.GetUser)
+
 	wedding := v1.Group("/wedding")
 	wedding.Use(middleware.JwtAuthMiddleware())
 	wedding.POST("", weddingController.CreateWedding)

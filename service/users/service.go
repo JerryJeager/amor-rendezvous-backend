@@ -10,6 +10,7 @@ import (
 )
 
 type UserSv interface {
+	GetUser(ctx context.Context, userID uuid.UUID) (*User, error)
 	CreateUser(ctx context.Context, user *User) (string, error)
 	CreateToken(ctx context.Context, user *service.User) (string, error)
 }
@@ -20,6 +21,10 @@ type UserServ struct {
 
 func NewUserService(repo UserStore) *UserServ {
 	return &UserServ{repo: repo}
+}
+
+func (o *UserServ) GetUser(ctx context.Context, userID uuid.UUID) (*User, error) {
+	return o.repo.GetUser(ctx, userID)
 }
 
 func (o *UserServ) CreateUser(ctx context.Context, user *User) (string, error) {

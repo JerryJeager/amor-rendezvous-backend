@@ -15,7 +15,7 @@ type User struct {
 	Email     string `json:"email" binding:"required" gorm:"unique"`
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
-	Password  string `json:"password" binding:"required"`
+	Password  string `json:"-" binding:"required"`
 	IsToWed   bool   `json:"is_to_wed"`
 }
 

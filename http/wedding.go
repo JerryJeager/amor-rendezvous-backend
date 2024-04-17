@@ -21,12 +21,14 @@ func (o *WeddingController) CreateWedding(ctx *gin.Context) {
 
 	if err := ctx.ShouldBindJSON(&wedding); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": "invalid format"})
+		return
 	}
 
 	id, err := o.serv.CreateWedding(ctx, &wedding)
 
 	if err != nil {
 		ctx.Status(http.StatusInternalServerError)
+		return
 	}
 
 	ctx.JSON(http.StatusCreated, id)
