@@ -2,14 +2,17 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 	"log"
+	"os"
+
 	"github.com/JerryJeager/amor-rendezvous-backend/api"
 	"github.com/JerryJeager/amor-rendezvous-backend/manualwire"
+	"github.com/JerryJeager/amor-rendezvous-backend/middleware"
 	"github.com/gin-gonic/gin"
 )
 
 var userController = manualwire.GetUserController()
+var weddingController = manualwire.GetWeddingController()
 
 func ExecuteApiRoutes() {
 	fmt.Println("executing api routes")
@@ -28,8 +31,12 @@ func ExecuteApiRoutes() {
 	})
 
 	users := v1.Group("/users")
-	users.POST("", userController.CreateUser)
-	users.POST("/token", userController.CreateToken)
+	users.POST("/signup", userController.CreateUser)
+	users.POST("/login", userController.CreateToken)
+
+	wedding := v1.Group("/wedding")
+	wedding.Use(middleware.JwtAuthMiddleware())
+	wedding.POST("", weddingController.CreateWedding)
 
 	port := os.Getenv("PORT")
 	if port == "" {
