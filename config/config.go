@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"log"
+
 	// "os"
 
 	"github.com/JerryJeager/amor-rendezvous-backend/service"
@@ -28,13 +29,19 @@ func ConnectToDB(){
 	// connectionString := os.Getenv("CONNECTION_STRING")
 
 	// dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", host, username, password, dbName, port)
+
+	// dsn := "host=localhost user=postgres password=chidiebere823A dbname=amor_rendezvous port=5432 sslmode=disable"
+
     db, err := gorm.Open(postgres.Open("postgres://postgres.qnwmvvwjqgonoromlfwm:chidiebere823A@aws-0-eu-central-1.pooler.supabase.com:5432/postgres"), &gorm.Config{})
+	
+    // db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil{
 		log.Fatal(err)
 	}
 
 	db.AutoMigrate(service.User{})
+	db.AutoMigrate(service.Wedding{})
 
 	Session =  db.Session(&gorm.Session{})
 	if Session != nil{

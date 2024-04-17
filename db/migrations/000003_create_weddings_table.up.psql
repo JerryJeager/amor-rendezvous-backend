@@ -1,12 +1,11 @@
 CREATE TABLE weddings (
     id                     UUID PRIMARY KEY,
-    venue                  VARCHAR NOT NULL,
-    description            VARCHAR,
+    description            VARCHAR(255),
     event_types            JSONB,
-    user_id                UUID NOT NULL REFERENCES(users, id), 
+    user_id                UUID NOT NULL REFERENCES users (id), 
     country                VARCHAR(200) NOT NULL,
     state                  VARCHAR(200) NOT NULL,
-    created_at             TIMESTAMPTZ NOT NULL,
+    created_at             TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at             TIMESTAMPTZ,
     deleted_at             TIMESTAMPTZ
 );

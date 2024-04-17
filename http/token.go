@@ -32,7 +32,7 @@ func GetToken(c *gin.Context) (*jwt.Token, error) {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
 
-		return "A492477RY49RWIOQHGURHGUIQPHERHFUQH734H7473889FHQ89HF", nil
+		return []byte("A492477RY49RWIOQHGURHGUIQPHERHFUQH734H7473889FHQ89HF"), nil
 	})
 	return token, err
 }
