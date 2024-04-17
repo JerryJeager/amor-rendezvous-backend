@@ -44,6 +44,24 @@ paths:
           $ref: "#/components/responses/badRequestError"
         "500":
           $ref: "#/components/responses/serverError"
+  /api/v1/users/{user-id}:
+    parameters:
+      - $ref: "#/components/parameters/user-id"
+    get:
+      summary: Get User by ID
+      description: Get User by ID
+      tags:   
+        - Users
+      operationId: get_user
+      responses:
+        "200":
+          $ref: "#/components/responses/UserResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
   /api/v1/wedding:
     post:
       summary: Create Wedding
@@ -96,6 +114,12 @@ components:
                 type: string
                 format: jwt
                 example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3MTIzMzU1NzcsImlkIjoiMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAwIn0.6fTROLGcLnMBhROKgEYKaB0fQUz91uPL19RTBRNk1PQ
+    UserResponse:
+      description: Response for user object
+      content:
+        application/json:
+          schema:
+              $ref: "#/components/schemas/User"
     createdResponse:
       description: "Created"
     successResponse:
@@ -165,6 +189,29 @@ components:
           schema:  
             $ref: "#/components/schemas/Wedding"
   schemas:
+    User: 
+      type: object
+      properties:
+        id: 
+          type: string
+          format: uuid
+          example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+        email: 
+          type: string
+          example: "user@gmail.com"
+        first_name: 
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        is_to_wed:
+          type: boolean
+          example: false
+        created_at: 
+          type: string
+          format: timestampz
+          example: "2024-04-17T08:47:09.547361+01:00"
     UserCreate: 
       type: object
       properties:
