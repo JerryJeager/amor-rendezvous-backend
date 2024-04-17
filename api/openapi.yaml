@@ -44,6 +44,24 @@ paths:
           $ref: "#/components/responses/badRequestError"
         "500":
           $ref: "#/components/responses/serverError"
+  /api/v1/wedding:
+    post:
+      summary: Create Wedding
+      description: Create Wedding 
+      tags:   
+        - Wedding
+      operationId: create_wedding
+      requestBody:
+        $ref: "#/components/requestBodies/WeddingBasic"
+      responses:
+        "200":
+          $ref: "#/components/responses/CreatedWithIDResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
 
 components:
   parameters:
@@ -141,6 +159,11 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/UserLogin"
+    WeddingBasic:
+      content:
+        application/json:
+          schema:  
+            $ref: "#/components/schemas/Wedding"
   schemas:
     UserCreate: 
       type: object
@@ -166,3 +189,19 @@ components:
         password: 
           type: string
           example: "userpassword82_"
+    Wedding: 
+      type: object
+      properties:
+        description: 
+          type: string
+          example: "Mr and Mrs John Smith Weds"
+        user_id: 
+          type: string
+          format: uuid
+          example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+        country: 
+          type: string
+          example: "Nigeria"
+        state: 
+          type: string
+          example: "Lagos"
