@@ -41,6 +41,12 @@ func ExecuteApiRoutes() {
 	wedding := v1.Group("/wedding")
 	wedding.Use(middleware.JwtAuthMiddleware())
 	wedding.POST("", weddingController.CreateWedding)
+	wedding.GET("/:wedding-id", weddingController.GetWedding)
+
+	weddingEvent := wedding.Group("/:wedding-id/event-type")
+	weddingEvent.POST("", weddingController.CreateEventType)
+	weddingEvent.PUT("/:event-type-id", weddingController.UpdateEventType)
+	weddingEvent.DELETE("/:event-type-id", weddingController.DeleteEventType)
 
 	port := os.Getenv("PORT")
 	if port == "" {

@@ -56,3 +56,17 @@ func (c *EventTypes) Scan(value interface{}) error {
 		return fmt.Errorf("unsupported type for Values: %T", v)
 	}
 }
+
+func (o *Wedding) MarshalJSON() ([]byte, error) {
+
+	wedding := map[string]interface{}{
+		"id":          o.ID,
+		"description": o.Description,
+		"user_id":     o.UserID,
+		"country":     o.Country,
+		"state":       o.State,
+		"event_types": o.EventTypes,
+	}
+
+	return json.Marshal(wedding)
+}

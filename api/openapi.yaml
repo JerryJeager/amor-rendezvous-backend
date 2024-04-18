@@ -5,14 +5,13 @@ info:
   version: "1.0"
 servers:
   - url: "https://amor-rendezvous-backend.onrender.com"
-  
 
 paths:
   /api/v1/users/signup:
     post:
       summary: Create a user account
       description: Create a user account
-      tags: 
+      tags:
         - Users
       operationId: create_user
       requestBody:
@@ -28,9 +27,9 @@ paths:
           $ref: "#/components/responses/serverError"
   /api/v1/users/login:
     post:
-      summary: Login user 
-      description: Login user 
-      tags:   
+      summary: Login user
+      description: Login user
+      tags:
         - Users
       operationId: login_user
       requestBody:
@@ -50,7 +49,7 @@ paths:
     get:
       summary: Get User by ID
       description: Get User by ID
-      tags:   
+      tags:
         - Users
       operationId: get_user
       responses:
@@ -65,8 +64,8 @@ paths:
   /api/v1/wedding:
     post:
       summary: Create Wedding
-      description: Create Wedding 
-      tags:   
+      description: Create Wedding
+      tags:
         - Wedding
       operationId: create_wedding
       requestBody:
@@ -80,11 +79,106 @@ paths:
           $ref: "#/components/responses/badRequestError"
         "500":
           $ref: "#/components/responses/serverError"
+  /api/v1/wedding/{wedding-id}:
+    parameters:
+      - $ref: "#/components/parameters/wedding-id"
+    get:
+      summary: Get Wedding by ID
+      description: Get Wedding by ID
+      tags:
+        - Wedding
+      operationId: get_wedding
+      responses:
+        "200":
+          $ref: "#/components/responses/WeddingResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+  /api/v1/wedding/{wedding-id}/event-type:
+    parameters:
+      - $ref: "#/components/parameters/wedding-id"
+    post:
+      summary: Create Event Type
+      description: Create Event Type
+      tags:
+        - Wedding
+      operationId: create_event_type
+      requestBody:
+        $ref: "#/components/requestBodies/EventType"
+      responses:
+        "201":
+          $ref: "#/components/responses/CreatedWithIDResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+  /api/v1/wedding/{wedding-id}/event-type/{event-type-id}:
+    put:
+      summary: Update Event Type
+      description: Update Event Type
+      tags:
+        - Wedding
+      operationId: update_event_type
+      parameters:
+        - $ref: "#/components/parameters/wedding-id"
+        - $ref: "#/components/parameters/event-type-id"
+      requestBody:
+        $ref: "#/components/requestBodies/EventType"
+      responses:
+        "200":
+          $ref: "#/components/responses/CreatedWithIDResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
+    delete:
+      summary: Delete Event Type
+      description: Delete Event Type
+      tags:
+        - Wedding
+      operationId: delete_event_type
+      parameters:
+        - $ref: "#/components/parameters/wedding-id"
+        - $ref: "#/components/parameters/event-type-id"
+      responses:
+        "204":
+          description: The resource was deleted successfully
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
 
 components:
   parameters:
     user-id:
       name: user-id
+      description: "An id, a time-uuid"
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+    wedding-id:
+      name: wedding-id
+      description: "An id, a time-uuid"
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+    event-type-id:
+      name: event-type-id
       description: "An id, a time-uuid"
       in: path
       required: true
@@ -110,7 +204,7 @@ components:
           schema:
             type: object
             properties:
-              token: 
+              token:
                 type: string
                 format: jwt
                 example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3MTIzMzU1NzcsImlkIjoiMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAwIn0.6fTROLGcLnMBhROKgEYKaB0fQUz91uPL19RTBRNk1PQ
@@ -119,7 +213,13 @@ components:
       content:
         application/json:
           schema:
-              $ref: "#/components/schemas/User"
+            $ref: "#/components/schemas/User"
+    WeddingResponse:
+      description: Response for a wedding object
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Wedding"
     createdResponse:
       description: "Created"
     successResponse:
@@ -173,33 +273,43 @@ components:
                 type: string
                 example: "File Not Found"
   requestBodies:
-    UserCreate:  
-      content: 
+    UserCreate:
+      content:
         application/json:
           schema:
             $ref: "#/components/schemas/UserCreate"
-    UserLogin:  
-      content: 
+    UserLogin:
+      content:
         application/json:
           schema:
             $ref: "#/components/schemas/UserLogin"
     WeddingBasic:
       content:
         application/json:
-          schema:  
+          schema:
+            $ref: "#/components/schemas/WeddingBasic"
+    Wedding:
+      content:
+        application/json:
+          schema:
             $ref: "#/components/schemas/Wedding"
+    EventType:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/EventTypeBasic"
   schemas:
-    User: 
+    User:
       type: object
       properties:
-        id: 
+        id:
           type: string
           format: uuid
           example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
-        email: 
+        email:
           type: string
           example: "user@gmail.com"
-        first_name: 
+        first_name:
           type: string
           example: "John"
         last_name:
@@ -208,47 +318,126 @@ components:
         is_to_wed:
           type: boolean
           example: false
-        created_at: 
+        created_at:
           type: string
           format: timestampz
           example: "2024-04-17T08:47:09.547361+01:00"
-    UserCreate: 
+    UserCreate:
       type: object
       properties:
-        email: 
+        email:
           type: string
           example: "user@gmail.com"
-        first_name: 
+        first_name:
           type: string
           example: "John"
         last_name:
           type: string
           example: "Doe"
-        password: 
+        password:
           type: string
           example: "userpassword82_"
-    UserLogin: 
+    UserLogin:
       type: object
       properties:
-        email: 
+        email:
           type: string
           example: "user@gmail.com"
-        password: 
+        password:
           type: string
           example: "userpassword82_"
-    Wedding: 
+    WeddingBasic:
       type: object
       properties:
-        description: 
+        description:
           type: string
           example: "Mr and Mrs John Smith Weds"
-        user_id: 
+        user_id:
           type: string
           format: uuid
           example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
-        country: 
+        country:
           type: string
           example: "Nigeria"
-        state: 
+        state:
           type: string
           example: "Lagos"
+    Wedding:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+        description:
+          type: string
+          example: "Mr and Mrs John Smith Weds"
+        user_id:
+          type: string
+          format: uuid
+          example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+        country:
+          type: string
+          example: "Nigeria"
+        state:
+          type: string
+          example: "Lagos"
+        event_types:
+          $ref: "#/components/schemas/EventTypes"
+    EventTypeBasic:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Reception party
+        venue:
+          type: string
+          example: 69 PLUTO Way Street, Ajegunle
+        description:
+          type: string
+          example: reception ceremonay after white wedding
+        date:
+          type: string
+          format: timestampz
+          example: "2024-04-17T08:47:09.547361+01:00"
+    EventType:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+        name:
+          type: string
+          example: Reception party
+        venue:
+          type: string
+          example: 69 PLUTO Way Street, Ajegunle
+        description:
+          type: string
+          example: reception ceremonay after white wedding
+        date:
+          type: string
+          format: timestampz
+          example: "2024-04-17T08:47:09.547361+01:00"
+    EventTypes:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/EventType"
+      example:
+        {
+          "c3d76ca4-10d2-4e30-aaa7-1f0506fa8dee":
+            {
+              "name": "Reception Party",
+              "venue": "Pluto way street, lekki",
+              "description": "Reception party after church service",
+              "date": "2024-04-17T08:47:09.547361+01:00",
+            },
+          "724fd412-1f8b-11ec-b0b3-9801a7895a3f":
+            {
+              "name": "Church Service",
+              "venue": "Pluto way street, lekki",
+              "description": "Catholic Wedding Mass Ceremony",
+              "date": "2024-04-17T08:47:09.547361+01:00",
+            },
+        }
