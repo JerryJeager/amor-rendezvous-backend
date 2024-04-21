@@ -156,6 +156,24 @@ paths:
           $ref: "#/components/responses/badRequestError"
         "500":
           $ref: "#/components/responses/serverError"
+  /api/v1/invitation/guest:
+    post:
+      summary: Create a Guest
+      description: Create a Guest
+      tags:
+        - Invitation
+      operationId: create_guest
+      requestBody:
+        $ref: "#/components/requestBodies/GuestBasic"
+      responses:
+        "201":
+          $ref: "#/components/responses/CreatedWithIDResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
 
 components:
   parameters:
@@ -288,6 +306,11 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/WeddingBasic"
+    GuestBasic:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GuestBasic"
     Wedding:
       content:
         application/json:
@@ -441,3 +464,39 @@ components:
               "date": "2024-04-17T08:47:09.547361+01:00",
             },
         }
+    PlusOnes: 
+      type: object
+      properties:
+        name: 
+          type: string
+          example: "Amadi Jerry"
+    Status:
+      type: string
+      description: Status for a Guest, i.e must be "attending", "pending", "rejected" or "approved"
+      example: "attending"
+    GuestBasic:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: "Eren"
+        last_name:
+          type: string
+          example: "Jeager"
+        email:
+          type: string
+          example: "eren@gmail.com"
+        wedding_id:
+          type: string
+          format: uuid
+          example: "724fd412-1f8b-11ec-b0b3-9801a7895a3f"
+        status: 
+          $ref: "#/components/schemas/Status"
+        plus_ones: 
+          type: array
+          items: 
+            $ref: "#/components/schemas/PlusOnes"
+          example: [
+            {"name": "Amadi Jerry"},
+            {"name": "John Doe"}
+          ]
