@@ -42,6 +42,7 @@ func ConnectToDB(){
 
 	db.AutoMigrate(service.User{})
 	db.AutoMigrate(service.Wedding{})
+	db.AutoMigrate(service.Invitee{})
 
 	Session =  db.Session(&gorm.Session{})
 	if Session != nil{

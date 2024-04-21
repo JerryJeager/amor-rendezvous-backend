@@ -14,6 +14,7 @@ import (
 
 var userController = manualwire.GetUserController()
 var weddingController = manualwire.GetWeddingController()
+var inviteeController = manualwire.GetInviteeController()
 
 func ExecuteApiRoutes() {
 	fmt.Println("executing api routes")
@@ -50,6 +51,12 @@ func ExecuteApiRoutes() {
 		weddingEvent.POST("", weddingController.CreateEventType)
 		weddingEvent.PUT("/:event-type-id", weddingController.UpdateEventType)
 		weddingEvent.DELETE("/:event-type-id", weddingController.DeleteEventType)
+	}
+
+	invitation := v1.Group("/invitation")
+	invitation.Use(middleware.JwtAuthMiddleware())
+	{
+		invitation.POST("/guest", inviteeController.CreateInvitee)
 	}
 
 	port := os.Getenv("PORT")
