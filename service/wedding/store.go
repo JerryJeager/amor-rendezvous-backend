@@ -2,7 +2,6 @@ package wedding
 
 import (
 	"context"
-	"errors"
 
 	"github.com/JerryJeager/amor-rendezvous-backend/config"
 	"github.com/JerryJeager/amor-rendezvous-backend/service"
@@ -54,10 +53,6 @@ func (o *WeddingRepo) CreateEventType(ctx context.Context, weddingID uuid.UUID, 
 		return "", result.Error
 	}
 
-	if result.RowsAffected == 0 {
-		return "", errors.New("failed to update resource")
-	}
-
 	return id, nil
 }
 
@@ -71,10 +66,6 @@ func (o *WeddingRepo) UpdateEventType(ctx context.Context, weddingID, eventTypeI
 		return "", result.Error
 	}
 
-	if result.RowsAffected == 0 {
-		return "", errors.New("failed to update resource")
-	}
-
 	return eventTypeID.String(), nil
 }
 
@@ -84,10 +75,6 @@ func (o *WeddingRepo) DeleteEventType(ctx context.Context, weddingID, eventTypeI
 
 	if result.Error != nil{
 		return result.Error
-	}
-
-	if result.RowsAffected == 0 {
-		return errors.New("failed to update resource")
 	}
 
 	return nil
