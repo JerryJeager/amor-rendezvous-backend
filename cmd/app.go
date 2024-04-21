@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/gin-contrib/cors"
 	"github.com/JerryJeager/amor-rendezvous-backend/api"
 	"github.com/JerryJeager/amor-rendezvous-backend/manualwire"
 	"github.com/JerryJeager/amor-rendezvous-backend/middleware"
@@ -18,6 +19,7 @@ func ExecuteApiRoutes() {
 	fmt.Println("executing api routes")
 
 	r := gin.Default()
+	r.Use(cors.Default())
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "hello!",
@@ -43,7 +45,7 @@ func ExecuteApiRoutes() {
 	{
 		wedding.POST("", weddingController.CreateWedding)
 		wedding.GET("/:wedding-id", weddingController.GetWedding)
-		
+
 		weddingEvent := wedding.Group("/:wedding-id/event-type")
 		weddingEvent.POST("", weddingController.CreateEventType)
 		weddingEvent.PUT("/:event-type-id", weddingController.UpdateEventType)

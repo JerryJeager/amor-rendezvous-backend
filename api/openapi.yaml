@@ -5,6 +5,9 @@ info:
   version: "1.0"
 servers:
   - url: "https://amor-rendezvous-backend.onrender.com"
+externalDocs:
+  description: View application metrics
+  url: /api/v1/info/openapi.yaml  # Relative URL
 
 paths:
   /api/v1/users/signup:
