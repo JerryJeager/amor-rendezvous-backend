@@ -11,7 +11,7 @@ import (
 
 func GenerateToken(user service.User) (string, error) {
 
-    tokenLifespan, err := strconv.Atoi("2")
+    tokenLifespan, err := strconv.Atoi("24")
 
     if err != nil {
         return "", err

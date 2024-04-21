@@ -1,0 +1,9 @@
+CREATE TABLE invitees(
+    id              UUID PRIMARY KEY,
+    first_name      VARCHAR(100),
+    last_name       VARCHAR(100),
+    email           VARCHAR(200) NOT NULL,
+    status          VARCHAR(50) NOT NULL,
+    plus_ones       JSONB,
+    wedding_id      UUID NOT NULL  REFERENCES weddings(id)
+);
