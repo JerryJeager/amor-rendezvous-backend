@@ -32,19 +32,43 @@ func (o *InviteeController) CreateInvitee(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, id)
 }
 
-func (o *InviteeController) GetInvitees (ctx *gin.Context) {
+func (o *InviteeController) GetInvitees(ctx *gin.Context) {
 	var pp WeddingIDPathParam
-	if err := ctx.ShouldBindUri(&pp); err != nil{
+	if err := ctx.ShouldBindUri(&pp); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": "id is of invalid uuid format"})
 		return
 	}
 
 	invitees, err := o.serv.GetInvitees(ctx, uuid.MustParse(pp.WeddingID))
 
-	if err != nil{
+	if err != nil {
 		ctx.JSON(http.StatusNotFound, err.Error())
 		return
 	}
 
 	ctx.JSON(http.StatusOK, *invitees)
+}
+
+func (o *InviteeController) UpdateInviteeStatus(ctx *gin.Context) {
+	var pp InviteeIDPathParam
+	if err := ctx.ShouldBindUri(&pp); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": "guest id is of invalid uuid format"})
+		return
+	}
+
+	var status invitees.NewStatus
+
+	if err := ctx.ShouldBindJSON(&status); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": "status be 'approved', 'pending', 'attending' or 'rejected'"})
+		return
+	}
+
+	err := o.serv.UpdateInviteeStatus(ctx, uuid.MustParse(pp.InviteeID), &status)
+
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, err.Error())
+		return
+	}
+
+	ctx.Status(http.StatusOK)
 }

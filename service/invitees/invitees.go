@@ -22,6 +22,10 @@ type Invitee struct {
 
 type Status string
 
+type NewStatus struct {
+	Status 
+}
+
 const (
 	APPROVED  Status = "approved"
 	PENDING   Status = "pending"

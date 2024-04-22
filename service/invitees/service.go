@@ -9,6 +9,7 @@ import (
 type InviteeSv interface {
 	CreateInvitee(ctx context.Context, invitee *Invitee) (string, error)
 	GetInvitees(ctx context.Context, weddingID uuid.UUID) (*Invitees, error)
+	UpdateInviteeStatus(ctx context.Context, inviteeID uuid.UUID, status *NewStatus) error
 }
 
 type InviteeServ struct {
@@ -35,4 +36,11 @@ func (o *InviteeServ) CreateInvitee(ctx context.Context, invitee *Invitee) (stri
 
 func (o *InviteeServ) GetInvitees(ctx context.Context, weddingID uuid.UUID) (*Invitees, error) {
 	return o.repo.GetInvitees(ctx, weddingID)
+}
+
+func (o *InviteeServ) UpdateInviteeStatus(ctx context.Context, inviteeID uuid.UUID, status *NewStatus) error {
+	if err := IsValidStatus(status.Status); err != nil {
+		return err
+	}
+	return o.repo.UpdateInviteeStatus(ctx, inviteeID, status)
 }

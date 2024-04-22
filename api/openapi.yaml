@@ -174,6 +174,24 @@ paths:
           $ref: "#/components/responses/badRequestError"
         "500":
           $ref: "#/components/responses/serverError"
+  /api/v1/invitation/guest/{invitee-id}:
+    patch:
+      summary: update the status of a guest
+      description: update the status of a guest
+      tags:
+        - Invitation
+      operationId: update_guest_status
+      requestBody:
+        $ref: "#/components/requestBodies/Status"
+      responses:
+        "200":
+          $ref: "#/components/responses/CreatedResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
   /api/v1/invitation/guests/{wedding-id}:
     get:
       summary: Get list of guests for a particular wedding
@@ -206,6 +224,15 @@ components:
       example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
     wedding-id:
       name: wedding-id
+      description: "An id, a time-uuid"
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      example: 724fd412-1f8b-11ec-b0b3-9801a7895a3f
+    invitee-id:
+      name: invitee-id
       description: "An id, a time-uuid"
       in: path
       required: true
@@ -345,6 +372,11 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/EventTypeBasic"
+    Status:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/StatusUpdate"
   schemas:
     User:
       type: object
@@ -502,6 +534,13 @@ components:
       type: string
       description: Status for a Guest, i.e must be "attending", "pending", "rejected" or "approved"
       example: "attending"
+    StatusUpdate:
+      type: object
+      description: Status for a Guest, i.e must be "attending", "pending", "rejected" or "approved"
+      properties:
+        status: 
+          type: string
+          example: "pending"
     GuestBasic:
       type: object
       properties:

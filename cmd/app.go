@@ -57,6 +57,7 @@ func ExecuteApiRoutes() {
 	// invitation.Use(middleware.JwtAuthMiddleware())
 	// {
 		invitation.POST("/guest", inviteeController.CreateInvitee)
+		invitation.PATCH("/guest/:invitee-id", inviteeController.UpdateInviteeStatus)
 		invitation.GET("/guests/:wedding-id", inviteeController.GetInvitees)
 	// }
 
