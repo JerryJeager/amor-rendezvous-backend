@@ -5,10 +5,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/gin-contrib/cors"
 	"github.com/JerryJeager/amor-rendezvous-backend/api"
 	"github.com/JerryJeager/amor-rendezvous-backend/manualwire"
 	"github.com/JerryJeager/amor-rendezvous-backend/middleware"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -32,6 +32,8 @@ func ExecuteApiRoutes() {
 	v1.GET("/info/openapi.yaml", func(c *gin.Context) {
 		c.String(200, api.OpenApiDocs())
 	})
+
+	v1.StaticFile("/docs", "./api/index.html")
 
 	users := v1.Group("/users")
 	users.POST("/signup", userController.CreateUser)
