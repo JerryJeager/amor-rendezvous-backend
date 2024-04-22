@@ -174,6 +174,24 @@ paths:
           $ref: "#/components/responses/badRequestError"
         "500":
           $ref: "#/components/responses/serverError"
+  /api/v1/invitation/guests/{wedding-id}:
+    get:
+      summary: Get list of guests for a particular wedding
+      description: Get list of guests for a particular wedding using the wedding id
+      tags:
+        - Invitation
+      operationId: get_all_invitees
+      parameters:
+        - $ref: "#/components/parameters/wedding-id"
+      responses:
+        "200":
+          $ref: "#/components/responses/InviteesResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
 
 components:
   parameters:
@@ -232,6 +250,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/User"
+    InviteesResponse:
+      description: Response for inviteess array
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Invitees"
     WeddingResponse:
       description: Response for a wedding object
       content:
@@ -470,6 +494,10 @@ components:
         name: 
           type: string
           example: "Amadi Jerry"
+    Invitees: 
+      type: array
+      items:
+        $ref: "#/components/schemas/Guest"
     Status:
       type: string
       description: Status for a Guest, i.e must be "attending", "pending", "rejected" or "approved"
@@ -486,6 +514,36 @@ components:
         email:
           type: string
           example: "eren@gmail.com"
+        wedding_id:
+          type: string
+          format: uuid
+          example: "724fd412-1f8b-11ec-b0b3-9801a7895a3f"
+        status: 
+          $ref: "#/components/schemas/Status"
+        plus_ones: 
+          type: array
+          items: 
+            $ref: "#/components/schemas/PlusOnes"
+          example: [
+            {"name": "Amadi Jerry"},
+            {"name": "John Doe"}
+          ]
+    Guest:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: "Eren"
+        last_name:
+          type: string
+          example: "Jeager"
+        email:
+          type: string
+          example: "eren@gmail.com"
+        id:
+          type: string
+          format: uuid
+          example: "724fd412-1f8b-11ec-b0b3-9801a7895a3f"
         wedding_id:
           type: string
           format: uuid
