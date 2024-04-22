@@ -54,10 +54,11 @@ func ExecuteApiRoutes() {
 	}
 
 	invitation := v1.Group("/invitation")
-	invitation.Use(middleware.JwtAuthMiddleware())
-	{
+	// invitation.Use(middleware.JwtAuthMiddleware())
+	// {
 		invitation.POST("/guest", inviteeController.CreateInvitee)
-	}
+		invitation.GET("/guests/:wedding-id", inviteeController.GetInvitees)
+	// }
 
 	port := os.Getenv("PORT")
 	if port == "" {

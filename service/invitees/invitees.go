@@ -29,6 +29,8 @@ const (
 	REJECTED  Status = "rejected"
 )
 
+type Invitees []Invitee
+
 type PlusOne struct {
 	Name string
 }

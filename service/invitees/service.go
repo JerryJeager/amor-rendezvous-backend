@@ -8,6 +8,7 @@ import (
 
 type InviteeSv interface {
 	CreateInvitee(ctx context.Context, invitee *Invitee) (string, error)
+	GetInvitees(ctx context.Context, weddingID uuid.UUID) (*Invitees, error)
 }
 
 type InviteeServ struct {
@@ -25,9 +26,13 @@ func (o *InviteeServ) CreateInvitee(ctx context.Context, invitee *Invitee) (stri
 		return "", err
 	}
 
-	if err := o.repo.CreateInvitee(ctx, invitee); err != nil{
+	if err := o.repo.CreateInvitee(ctx, invitee); err != nil {
 		return "", err
 	}
 
 	return id.String(), nil
+}
+
+func (o *InviteeServ) GetInvitees(ctx context.Context, weddingID uuid.UUID) (*Invitees, error) {
+	return o.repo.GetInvitees(ctx, weddingID)
 }
