@@ -181,11 +181,13 @@ paths:
       tags:
         - Invitation
       operationId: update_guest_status
+      parameters:
+        - $ref: "#/components/parameters/invitee-id"
       requestBody:
         $ref: "#/components/requestBodies/Status"
       responses:
         "200":
-          $ref: "#/components/responses/CreatedResponse"
+          $ref: "#/components/responses/createdResponse"
         "401":
           $ref: "#/components/responses/unauthorizedError"
         "400":
