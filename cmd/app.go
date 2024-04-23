@@ -33,8 +33,6 @@ func ExecuteApiRoutes() {
 		c.String(200, api.OpenApiDocs())
 	})
 
-	v1.StaticFile("/docs", "./api/index.html")
-
 	users := v1.Group("/users")
 	users.POST("/signup", userController.CreateUser)
 	users.POST("/login", userController.CreateToken)
