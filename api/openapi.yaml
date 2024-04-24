@@ -194,6 +194,25 @@ paths:
           $ref: "#/components/responses/badRequestError"
         "500":
           $ref: "#/components/responses/serverError"
+    put:
+      summary: update  a guest basic info
+      description: update a guest basic info
+      tags:
+        - Invitation
+      operationId: update_guest_info
+      parameters:
+        - $ref: "#/components/parameters/invitee-id"
+      requestBody:
+        $ref: "#/components/requestBodies/GuestInfo"
+      responses:
+        "200":
+          $ref: "#/components/responses/createdResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
   /api/v1/invitation/guests/{wedding-id}:
     get:
       summary: Get list of guests for a particular wedding
@@ -368,6 +387,11 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/GuestBasic"
+    GuestInfo:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GuestInfo"
     Wedding:
       content:
         application/json:
@@ -573,6 +597,24 @@ components:
             {"name": "Amadi Jerry"},
             {"name": "John Doe"}
           ]
+    GuestInfo:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: "Eren"
+        last_name:
+          type: string
+          example: "Jeager"
+        email:
+          type: string
+          example: "eren@gmail.com"
+        wedding_id:
+          type: string
+          format: uuid
+          example: "724fd412-1f8b-11ec-b0b3-9801a7895a3f"
+        status: 
+          $ref: "#/components/schemas/Status"
     Guest:
       type: object
       properties:

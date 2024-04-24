@@ -11,7 +11,7 @@ import (
 func JwtAuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		err := auth.ValidateToken(c)
+		id, err := auth.ValidateToken(c)
 
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"Unauthorized": "Authentication required"})
@@ -19,6 +19,9 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
+
+		c.Set("user_id", id)
+
 		c.Next()
 	}
 }

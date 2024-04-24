@@ -10,19 +10,20 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func ValidateToken(c *gin.Context) error {
+func ValidateToken(c *gin.Context) (string, error) {
 	token, err := GetToken(c)
 
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	_, ok := token.Claims.(jwt.MapClaims)
+	claims, ok := token.Claims.(jwt.MapClaims)
 	if ok && token.Valid {
-		return nil
+		id := claims["id"].(string)
+		return id, nil
 	}
 
-	return errors.New("invalid token provided")
+	return "", errors.New("invalid token provided")
 }
 
 func GetToken(c *gin.Context) (*jwt.Token, error) {

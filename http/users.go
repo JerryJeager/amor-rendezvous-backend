@@ -18,6 +18,13 @@ func NewUserController(serv users.UserSv) *UserController {
 }
 
 func (o *UserController) GetUser(ctx *gin.Context) {
+
+	// userID, err := GetCurrentUser(ctx)
+	// if err != nil{
+	// 	ctx.JSON(http.StatusInternalServerError, err.Error())
+	// 	return
+	// }
+
 	var pp UserIDPathParm
 
 	if err := ctx.ShouldBindUri(&pp); err != nil {
@@ -59,6 +66,7 @@ func (o *UserController) CreateToken(ctx *gin.Context) {
 	}
 
 	id, token, err := o.serv.CreateToken(ctx, &user)
+	
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": "email or password is invaiid"})

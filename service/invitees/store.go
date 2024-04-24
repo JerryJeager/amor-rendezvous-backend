@@ -13,6 +13,7 @@ type InviteeStore interface {
 	CreateInvitee(ctx context.Context, invitee *Invitee) error
 	GetInvitees(ctx context.Context, weddingID uuid.UUID) (*Invitees, error)
 	UpdateInviteeStatus(ctx context.Context, inviteeID uuid.UUID, status *NewStatus) error
+	UpdateInvitee(ctx context.Context, inviteeID uuid.UUID, invitee *Invitee) error
 }
 
 type InviteeRepo struct {
@@ -48,6 +49,16 @@ func (o *InviteeRepo) GetInvitees(ctx context.Context, weddingID uuid.UUID) (*In
 func (o *InviteeRepo) UpdateInviteeStatus(ctx context.Context, inviteeID uuid.UUID, status *NewStatus) error {
 
 	query := config.Session.Model(Invitee{}).WithContext(ctx).Where("id = ?", inviteeID).Update("status", status.Status)
+
+	if query.Error != nil {
+		return query.Error
+	}
+
+	return nil
+}
+
+func (o *InviteeRepo) UpdateInvitee(ctx context.Context, inviteeID uuid.UUID, invitee *Invitee) error {
+	query := config.Session.Model(Invitee{}).WithContext(ctx).Where("id = ? ", inviteeID).Updates(Invitee{FirstName: invitee.FirstName, LastName: invitee.LastName, Email: invitee.Email, Status: invitee.Status})
 
 	if query.Error != nil {
 		return query.Error

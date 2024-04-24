@@ -39,7 +39,7 @@ func ExecuteApiRoutes() {
 
 	user := users
 	user.Use(middleware.JwtAuthMiddleware())
-	user.GET("/:user-id", userController.GetUser)
+	user.GET("/details", userController.GetUser)
 
 	wedding := v1.Group("/wedding")
 	wedding.Use(middleware.JwtAuthMiddleware())
@@ -58,6 +58,7 @@ func ExecuteApiRoutes() {
 	// {
 		invitation.POST("/guest", inviteeController.CreateInvitee)
 		invitation.PATCH("/guest/:invitee-id", inviteeController.UpdateInviteeStatus)
+		invitation.PUT("/guest/:invitee-id", inviteeController.UpdateInvitee)
 		invitation.GET("/guests/:wedding-id", inviteeController.GetInvitees)
 	// }
 

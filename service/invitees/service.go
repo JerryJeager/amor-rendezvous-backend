@@ -10,6 +10,7 @@ type InviteeSv interface {
 	CreateInvitee(ctx context.Context, invitee *Invitee) (string, error)
 	GetInvitees(ctx context.Context, weddingID uuid.UUID) (*Invitees, error)
 	UpdateInviteeStatus(ctx context.Context, inviteeID uuid.UUID, status *NewStatus) error
+	UpdateInvitee(ctx context.Context, inviteeID uuid.UUID, invitee *Invitee) error
 }
 
 type InviteeServ struct {
@@ -43,4 +44,8 @@ func (o *InviteeServ) UpdateInviteeStatus(ctx context.Context, inviteeID uuid.UU
 		return err
 	}
 	return o.repo.UpdateInviteeStatus(ctx, inviteeID, status)
+}
+
+func (o *InviteeServ) UpdateInvitee(ctx context.Context, inviteeID uuid.UUID, invitee *Invitee) error{
+	return o.repo.UpdateInvitee(ctx, inviteeID, invitee)
 }
