@@ -35,6 +35,7 @@ func ConnectToDB(){
 	//live DB config:::
 	connectionString := os.Getenv("CONNECTION_STRING")
     db, err := gorm.Open(postgres.Open(connectionString), &gorm.Config{})
+	
 
 	if err != nil{
 		log.Fatal(err)

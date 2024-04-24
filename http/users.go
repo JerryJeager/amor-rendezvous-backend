@@ -37,7 +37,8 @@ func (o *UserController) GetUser(ctx *gin.Context){
 func (o *UserController) CreateUser(ctx *gin.Context){
 	var user users.User
 	if err := ctx.ShouldBindJSON(&user); err != nil{
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": err})
+		return
 	}
 	id, err := o.serv.CreateUser(ctx, &user)
 
