@@ -273,6 +273,10 @@ components:
                 type: string
                 format: jwt
                 example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3MTIzMzU1NzcsImlkIjoiMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAwIn0.6fTROLGcLnMBhROKgEYKaB0fQUz91uPL19RTBRNk1PQ
+              user_id:
+                type: string
+                format: uuid
+                example: 79ba352a-fd7b-4b39-9e6d-be412a88036d
     UserResponse:
       description: Response for user object
       content:

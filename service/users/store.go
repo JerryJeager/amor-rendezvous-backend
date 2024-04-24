@@ -15,6 +15,7 @@ type UserStore interface {
 	GetUser(ctx context.Context, userID uuid.UUID) (*User, error)
 	CreateUser(ctx context.Context, user *User) error
 	CreateToken(ctx context.Context, userEmail string, user *service.User) (string, error)
+	GetUserID(ctx context.Context, email string) (string, error)
 }
 
 type UserRepo struct {
@@ -36,6 +37,16 @@ func (o *UserRepo) GetUser(ctx context.Context, userID uuid.UUID) (*User, error)
 		return &User{}, query.Error
 	}
 	return &user, nil
+}
+
+func (o *UserRepo) GetUserID(ctx context.Context, email string) (string, error) {
+	var user User
+	query := config.Session.First(&user, "email = ?", email).WithContext(ctx)
+
+	if query.Error != nil{
+		return "", query.Error
+	}
+	return user.ID.String(), nil
 }
 
 func (o *UserRepo) CreateUser(ctx context.Context, user *User) error {

@@ -13,14 +13,14 @@ type UserController struct {
 	serv users.UserSv
 }
 
-func NewUserController (serv users.UserSv) *UserController{
+func NewUserController(serv users.UserSv) *UserController {
 	return &UserController{serv: serv}
 }
 
-func (o *UserController) GetUser(ctx *gin.Context){
+func (o *UserController) GetUser(ctx *gin.Context) {
 	var pp UserIDPathParm
 
-	if err := ctx.ShouldBindUri(&pp); err != nil{
+	if err := ctx.ShouldBindUri(&pp); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": "uuid is of invalid format"})
 		return
 	}
@@ -34,37 +34,36 @@ func (o *UserController) GetUser(ctx *gin.Context){
 	ctx.JSON(http.StatusOK, *user)
 }
 
-func (o *UserController) CreateUser(ctx *gin.Context){
+func (o *UserController) CreateUser(ctx *gin.Context) {
 	var user users.User
-	if err := ctx.ShouldBindJSON(&user); err != nil{
+	if err := ctx.ShouldBindJSON(&user); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 	id, err := o.serv.CreateUser(ctx, &user)
 
-	if err != nil{
+	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": "user with this email already exists"})
-		return 
+		return
 	}
 
 	ctx.JSON(http.StatusCreated, id)
 }
 
-
-func (o *UserController) CreateToken(ctx *gin.Context){
+func (o *UserController) CreateToken(ctx *gin.Context) {
 
 	var user service.User
-	if err := ctx.ShouldBindJSON(&user); err != nil{
+	if err := ctx.ShouldBindJSON(&user); err != nil {
 		ctx.Status(http.StatusBadRequest)
 		return
 	}
 
-	token, err := o.serv.CreateToken(ctx, &user)
+	id, token, err := o.serv.CreateToken(ctx, &user)
 
-	if err != nil{
+	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": "email or password is invaiid"})
 		return
 	}
-	ctx.JSON(http.StatusCreated, gin.H{"token": token})
+	ctx.JSON(http.StatusCreated, gin.H{"user_id": id, "token": token})
 
 }
