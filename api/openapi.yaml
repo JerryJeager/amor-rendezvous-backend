@@ -213,6 +213,23 @@ paths:
           $ref: "#/components/responses/badRequestError"
         "500":
           $ref: "#/components/responses/serverError"
+    delete:
+      summary: delete a guest 
+      description: delete a guest 
+      tags:
+        - Invitation
+      operationId: delete_guest
+      parameters:
+        - $ref: "#/components/parameters/invitee-id"
+      responses:
+        "204":
+          description: The resource was deleted successfully
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
   /api/v1/invitation/guests/{wedding-id}:
     get:
       summary: Get list of guests for a particular wedding
