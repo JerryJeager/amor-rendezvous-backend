@@ -25,7 +25,7 @@ func (o *InviteeController) CreateInvitee(ctx *gin.Context) {
 
 	id, err := o.serv.CreateInvitee(ctx, &invitee)
 	if err != nil {
-		ctx.Status(http.StatusInternalServerError)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
 
@@ -88,11 +88,28 @@ func (o *InviteeController) UpdateInvitee(ctx *gin.Context) {
 
 	err := o.serv.UpdateInvitee(ctx, uuid.MustParse(pp.InviteeID), &invitee)
 
-	if err != nil{
+	if err != nil {
 		ctx.Status(http.StatusNotFound)
 		return
 	}
 
 	ctx.Status(http.StatusOK)
 
+}
+
+func (o *InviteeController) DeleteInvitee(ctx *gin.Context) {
+	var pp InviteeIDPathParam
+	if err := ctx.ShouldBindUri(&pp); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": "guest id is of invalid uuid format"})
+		return
+	}
+
+	err := o.serv.DeleteInvitee(ctx, uuid.MustParse(pp.InviteeID))
+
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, gin.H{"message": err.Error()})
+		return
+	}
+
+	ctx.Status(http.StatusNoContent)
 }

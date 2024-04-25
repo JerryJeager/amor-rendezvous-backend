@@ -61,6 +61,10 @@ func ExecuteApiRoutes() {
 		invitation.PUT("/guest/:invitee-id", inviteeController.UpdateInvitee)
 		invitation.GET("/guests/:wedding-id", inviteeController.GetInvitees)
 	// }
+	invitation.Use(middleware.JwtAuthMiddleware())
+	{
+		invitation.DELETE("/guest/:invitee-id", inviteeController.DeleteInvitee)
+	}
 
 	port := os.Getenv("PORT")
 	if port == "" {
