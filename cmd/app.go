@@ -46,6 +46,7 @@ func ExecuteApiRoutes() {
 	{
 		wedding.POST("", weddingController.CreateWedding)
 		wedding.GET("/:wedding-id", weddingController.GetWedding)
+		wedding.GET("user/:user-id", weddingController.GetWeddings)
 
 		weddingEvent := wedding.Group("/:wedding-id/event-type")
 		weddingEvent.POST("", weddingController.CreateEventType)

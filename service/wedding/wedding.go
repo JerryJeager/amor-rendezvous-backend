@@ -19,6 +19,8 @@ type Wedding struct {
 	State       string     `json:"state" binding:"required"`
 }
 
+type Weddings []Wedding
+
 type EventType struct {
 	Name        string     `json:"name" binding:"required"`
 	Venue       string     `json:"venue"`

@@ -97,6 +97,24 @@ paths:
           $ref: "#/components/responses/badRequestError"
         "500":
           $ref: "#/components/responses/serverError"
+  /api/v1/wedding/user/{user-id}:
+    get:
+      summary: Get list of weddings for a particular user
+      description: Get list of weddings for a particular user
+      tags:
+        - Wedding
+      operationId: get_all_weddings
+      parameters:
+        - $ref: "#/components/parameters/user-id"
+      responses:
+        "200":
+          $ref: "#/components/responses/WeddingsResponse"
+        "401":
+          $ref: "#/components/responses/unauthorizedError"
+        "400":
+          $ref: "#/components/responses/badRequestError"
+        "500":
+          $ref: "#/components/responses/serverError"
   /api/v1/wedding/{wedding-id}/event-type:
     parameters:
       - $ref: "#/components/parameters/wedding-id"
@@ -320,11 +338,17 @@ components:
           schema:
             $ref: "#/components/schemas/User"
     InviteesResponse:
-      description: Response for inviteess array
+      description: Response for invitees array
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/Invitees"
+    WeddingsResponse:
+      description: Response for weddings array
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Weddings"
     WeddingResponse:
       description: Response for a wedding object
       content:
@@ -577,6 +601,10 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Guest"
+    Weddings: 
+      type: array
+      items:
+        $ref: "#/components/schemas/Wedding"
     Status:
       type: string
       description: Status for a Guest, i.e must be "attending", "pending", "rejected" or "approved"

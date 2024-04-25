@@ -9,6 +9,7 @@ import (
 
 type WeddingSv interface {
 	GetWedding(ctx context.Context, weddingID uuid.UUID) (*Wedding, error)
+	GetWeddings(ctx context.Context, weddingID uuid.UUID) (*Weddings, error)
 	CreateWedding(ctx context.Context, wedding *service.Wedding) (string, error)
 
 	CreateEventType(ctx context.Context, weddingID uuid.UUID, eventType *service.EventType) (string, error)
@@ -27,6 +28,11 @@ func NewWeddingService(repo WeddingStore) *WeddingServ {
 func (o *WeddingServ) GetWedding(ctx context.Context, weddingID uuid.UUID) (*Wedding, error) {
 	return o.repo.GetWedding(ctx, weddingID)
 }
+
+func (o *WeddingServ) GetWeddings(ctx context.Context, userID uuid.UUID) (*Weddings, error) {
+	return o.repo.GetWeddings(ctx, userID)
+}
+
 
 func (o *WeddingServ) CreateWedding(ctx context.Context, wedding *service.Wedding) (string, error) {
 	id := uuid.New()

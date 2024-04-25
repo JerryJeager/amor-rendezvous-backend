@@ -33,6 +33,23 @@ func (o *WeddingController) GetWedding(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, *wedding)
 }
 
+func (o *WeddingController) GetWeddings(ctx *gin.Context) {
+	var pp UserIDPathParm
+	if err := ctx.ShouldBindUri(&pp); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": "id is of invalid uuid format"})
+		return
+	}
+
+	Weddings, err := o.serv.GetWeddings(ctx, uuid.MustParse(pp.UserID))
+
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, err.Error())
+		return
+	}
+
+	ctx.JSON(http.StatusOK, *Weddings)
+}
+
 func (o *WeddingController) CreateWedding(ctx *gin.Context) {
 	var wedding service.Wedding
 

@@ -12,6 +12,7 @@ import (
 type WeddingStore interface {
 	GetWedding(ctx context.Context, weddingID uuid.UUID) (*Wedding, error)
 	CreateWedding(ctx context.Context, wedding *service.Wedding) error
+	GetWeddings(ctx context.Context, userID uuid.UUID) (*Weddings, error)
 
 	CreateEventType(ctx context.Context, weddingID uuid.UUID, eventType *service.EventType) (string, error)
 	UpdateEventType(ctx context.Context, weddingID, eventTypeID uuid.UUID, eventType *service.EventType) (string, error)
@@ -33,6 +34,18 @@ func (o *WeddingRepo) GetWedding(ctx context.Context, weddingID uuid.UUID) (*Wed
 		return &Wedding{}, query.Error
 	}
 	return &wedding, nil
+}
+
+func (o *WeddingRepo) GetWeddings(ctx context.Context, userID uuid.UUID) (*Weddings, error) {
+	var Weddings Weddings
+
+	query := config.Session.WithContext(ctx).Model(Wedding{}).Where("user_id = ?", userID).Find(&Weddings)
+
+	if query.Error != nil {
+		return nil, query.Error
+	}
+
+	return &Weddings, nil
 }
 
 func (o *WeddingRepo) CreateWedding(ctx context.Context, wedding *service.Wedding) error {
